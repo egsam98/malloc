@@ -1,11 +1,15 @@
 package malloc
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestName(t *testing.T) {
-	v := Malloc[string]()
-	*v = "test"
-	t.Log(*v)
-	Free(v)
-	t.Log(*v) // panics
+	var arena Arena
+	v1 := Malloc[byte](&arena)
+	*v1 = 'd'
+	v2 := Malloc[byte](&arena)
+	*v2 = 'a'
+	arena.Free()
+	t.Log(string(*v1), string(*v2))
 }
